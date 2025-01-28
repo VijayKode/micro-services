@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: apigatewaypattern
+  cloud:
+    gateway:
+      routes:
+        - id: hello
+          uri: http://localhost:1002/     # service
+          predicates:
+           # - Path=/gateway              # identifies service by path
+           # - Cookie=hello,helloGateway  # identifies service by cookie
+           # - Header=empId, \d+          # identifies service by header
+            - Method=GET,POST             # identifies service by method
+            - Weight=group1, 5            # load balancing
+          filters:
+            - SetPath=/helloGateway  # path re writing
+
+        - id: hello1
+          uri: http://localhost:1002/
+          predicates:
+             #- Path=/welcome
+              # - Cookie=hello,helloGateway
+              # - Header=empId, \d+
+             - Method=GET,POST
+             - Weight=group1, 5
+          filters:
+            - SetPath=/welcome
+
+
+
+
